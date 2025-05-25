@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 
 // Главная страница — каталог товаров
 Route::get('/', [ProductController::class, 'index'])->name('home');
@@ -43,3 +44,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth')
     ->name('dashboard');
+
+// Роли
+Route::get('/admin/dashboard', [HomeController::class, 'adminDashboard'])->middleware(['auth', 'role:admin'])->name('admin.dashboard');
+Route::get('/product-manager/dashboard', [HomeController::class, 'productManagerDashboard'])->middleware(['auth', 'role:product manager'])->name('product-manager.dashboard');
+Route::get('/order-manager/dashboard', [HomeController::class, 'orderManagerDashboard'])->middleware(['auth', 'role:order manager'])->name('order-manager.dashboard');
+Route::get('/customer/dashboard', [HomeController::class, 'customerDashboard'])->middleware(['auth', 'role:customer'])->name('customer.dashboard');
+
+//Auth::routes();
